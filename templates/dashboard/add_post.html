@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+{% block content %}
+{% load crispy_forms_tags %}
+<div style="display:flex;gap:2rem;align-items:flex-start;">
+  {% include 'dashboard/sidebar.html' %}
+  <div style="flex:1;">
+    <h2 style="font-family:var(--serif);font-size:1.5rem;margin-bottom:1.5rem;">Add New Post</h2>
+    <div style="background:var(--card-bg);border:1px solid var(--border);border-radius:4px;padding:2rem;max-width:720px;">
+      <form action="{% url 'add_post' %}" method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
+        {{ form|crispy }}
+        <div style="margin-top:1.2rem;display:flex;gap:0.75rem;">
+          <button type="submit" class="btn btn-primary">Publish Post</button>
+          <a href="{% url 'posts' %}" class="btn btn-outline">Cancel</a>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+{% endblock %}

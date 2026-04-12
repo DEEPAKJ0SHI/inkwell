@@ -1,0 +1,49 @@
+{% extends 'base.html' %}
+{% block content %}
+<div style="display:flex;gap:2rem;align-items:flex-start;">
+  {% include 'dashboard/sidebar.html' %}
+  <div style="flex:1;">
+    {% if perms.auth.view_user %}
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:1.5rem;">
+      <h2 style="font-family:var(--serif);font-size:1.5rem;">Users</h2>
+      <a href="{% url 'add_user' %}" class="btn btn-primary btn-sm"><i class="fas fa-plus"></i> Add User</a>
+    </div>
+    <div style="background:var(--card-bg);border:1px solid var(--border);border-radius:4px;overflow:hidden;">
+      <table style="width:100%;border-collapse:collapse;font-size:0.87rem;">
+        <thead>
+          <tr style="background:#f9fafb;">
+            <th style="text-align:left;padding:0.65rem 1rem;font-size:0.72rem;letter-spacing:0.08em;text-transform:uppercase;color:var(--muted);border-bottom:2px solid var(--border);">#</th>
+            <th style="text-align:left;padding:0.65rem 1rem;font-size:0.72rem;letter-spacing:0.08em;text-transform:uppercase;color:var(--muted);border-bottom:2px solid var(--border);">Name</th>
+            <th style="text-align:left;padding:0.65rem 1rem;font-size:0.72rem;letter-spacing:0.08em;text-transform:uppercase;color:var(--muted);border-bottom:2px solid var(--border);">Username</th>
+            <th style="text-align:left;padding:0.65rem 1rem;font-size:0.72rem;letter-spacing:0.08em;text-transform:uppercase;color:var(--muted);border-bottom:2px solid var(--border);">Email</th>
+            <th style="text-align:left;padding:0.65rem 1rem;font-size:0.72rem;letter-spacing:0.08em;text-transform:uppercase;color:var(--muted);border-bottom:2px solid var(--border);">Active</th>
+            <th style="text-align:left;padding:0.65rem 1rem;font-size:0.72rem;letter-spacing:0.08em;text-transform:uppercase;color:var(--muted);border-bottom:2px solid var(--border);">Staff</th>
+            <th style="text-align:left;padding:0.65rem 1rem;font-size:0.72rem;letter-spacing:0.08em;text-transform:uppercase;color:var(--muted);border-bottom:2px solid var(--border);">Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for user in users %}
+          <tr onmouseover="this.style.background='#f9fafb'" onmouseout="this.style.background=''">
+            <td style="padding:0.65rem 1rem;border-bottom:1px solid var(--border);color:var(--muted);">{{ forloop.counter }}</td>
+            <td style="padding:0.65rem 1rem;border-bottom:1px solid var(--border);font-weight:500;">{{ user.first_name }} {{ user.last_name }}</td>
+            <td style="padding:0.65rem 1rem;border-bottom:1px solid var(--border);">{{ user.username }}</td>
+            <td style="padding:0.65rem 1rem;border-bottom:1px solid var(--border);color:var(--muted);">{{ user.email }}</td>
+            <td style="padding:0.65rem 1rem;border-bottom:1px solid var(--border);text-align:center;">{% if user.is_active %}<i class="fas fa-check" style="color:var(--teal);"></i>{% else %}<i class="fas fa-times" style="color:#d1d5db;"></i>{% endif %}</td>
+            <td style="padding:0.65rem 1rem;border-bottom:1px solid var(--border);text-align:center;">{% if user.is_staff %}<i class="fas fa-check" style="color:var(--teal);"></i>{% else %}<i class="fas fa-times" style="color:#d1d5db;"></i>{% endif %}</td>
+            <td style="padding:0.65rem 1rem;border-bottom:1px solid var(--border);">
+              <a href="{% url 'edit_user' user.id %}" style="color:var(--teal);margin-right:0.75rem;"><i class="fas fa-edit"></i></a>
+              <a href="{% url 'delete_user' user.id %}" style="color:#ef4444;" onclick="return confirm('Delete this user?')"><i class="fas fa-trash"></i></a>
+            </td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+    {% else %}
+    <div style="background:var(--teal-light);border-radius:4px;padding:1.5rem;color:#115e59;">
+      <i class="fas fa-lock"></i> You don't have permission to view this page.
+    </div>
+    {% endif %}
+  </div>
+</div>
+{% endblock %}

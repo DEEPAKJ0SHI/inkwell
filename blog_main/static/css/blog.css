@@ -1,0 +1,113 @@
+/* =========================================
+   InkWell - Custom CSS
+   Replaces original Bootstrap blog styles
+   ========================================= */
+
+/* Crispy forms overrides */
+.form-control,
+.form-select,
+textarea.form-control {
+  border: 1.5px solid #e5e7eb;
+  border-radius: 3px;
+  font-family: 'DM Sans', system-ui, sans-serif;
+  font-size: 0.9rem;
+  padding: 0.5rem 0.8rem;
+  transition: border-color 0.2s, box-shadow 0.2s;
+  background: #fff;
+  color: #0f0e0e;
+  width: 100%;
+}
+.form-control:focus,
+.form-select:focus,
+textarea.form-control:focus {
+  border-color: #0d9488;
+  box-shadow: 0 0 0 3px rgba(13, 148, 136, 0.12);
+  outline: none;
+}
+
+label {
+  font-size: 0.85rem;
+  font-weight: 500;
+  margin-bottom: 0.3rem;
+  display: block;
+  color: #374151;
+}
+
+.mb-3,
+.form-group {
+  margin-bottom: 1.1rem;
+}
+
+.helptext,
+.form-text {
+  font-size: 0.78rem;
+  color: #6b7280;
+  margin-top: 0.25rem;
+  display: block;
+}
+
+.errorlist {
+  list-style: none;
+  padding: 0;
+  margin: 0.3rem 0 0;
+}
+.errorlist li {
+  font-size: 0.8rem;
+  color: #dc2626;
+}
+
+/* Checkbox / radio */
+.form-check {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 0.5rem;
+}
+.form-check-input {
+  width: 16px;
+  height: 16px;
+  accent-color: #0d9488;
+  cursor: pointer;
+}
+.form-check-label {
+  font-size: 0.87rem;
+  color: #374151;
+  cursor: pointer;
+  margin: 0;
+}
+
+/* Select2 / custom selects */
+select.form-control {
+  cursor: pointer;
+}
+
+/* Image preview in edit post */
+img.img-thumbnail {
+  border-radius: 3px;
+  border: 1px solid #e5e7eb;
+  max-width: 180px;
+}
+
+/* Django messages (tags: success, error, warning, info) */
+.messages {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 1.2rem;
+}
+.messages li {
+  padding: 0.75rem 1.2rem;
+  border-left: 4px solid;
+  font-size: 0.88rem;
+  border-radius: 2px;
+  margin-bottom: 0.5rem;
+}
+.messages .success { background: #f0fdf4; border-color: #22c55e; color: #166534; }
+.messages .error   { background: #fef2f2; border-color: #ef4444; color: #991b1b; }
+.messages .warning { background: #fffbeb; border-color: #f59e0b; color: #92400e; }
+.messages .info    { background: #ccfbf1; border-color: #0d9488; color: #115e59; }
+
+/* Responsive table scroll on mobile */
+@media (max-width: 768px) {
+  table { display: block; overflow-x: auto; }
+  .dashboard-layout { flex-direction: column !important; }
+}

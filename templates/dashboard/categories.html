@@ -1,0 +1,39 @@
+{% extends 'base.html' %}
+{% block content %}
+<div style="display:flex;gap:2rem;align-items:flex-start;">
+  {% include 'dashboard/sidebar.html' %}
+  <div style="flex:1;">
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:1.5rem;">
+      <h2 style="font-family:var(--serif);font-size:1.5rem;">Categories</h2>
+      <a href="{% url 'add_category' %}" class="btn btn-primary btn-sm"><i class="fas fa-plus"></i> New Category</a>
+    </div>
+    <div style="background:var(--card-bg);border:1px solid var(--border);border-radius:4px;overflow:hidden;">
+      <table style="width:100%;border-collapse:collapse;font-size:0.87rem;">
+        <thead>
+          <tr style="background:#f9fafb;">
+            <th style="text-align:left;padding:0.65rem 1rem;font-size:0.72rem;letter-spacing:0.08em;text-transform:uppercase;color:var(--muted);border-bottom:2px solid var(--border);">#</th>
+            <th style="text-align:left;padding:0.65rem 1rem;font-size:0.72rem;letter-spacing:0.08em;text-transform:uppercase;color:var(--muted);border-bottom:2px solid var(--border);">Name</th>
+            <th style="text-align:left;padding:0.65rem 1rem;font-size:0.72rem;letter-spacing:0.08em;text-transform:uppercase;color:var(--muted);border-bottom:2px solid var(--border);">Created</th>
+            <th style="text-align:left;padding:0.65rem 1rem;font-size:0.72rem;letter-spacing:0.08em;text-transform:uppercase;color:var(--muted);border-bottom:2px solid var(--border);">Updated</th>
+            <th style="text-align:left;padding:0.65rem 1rem;font-size:0.72rem;letter-spacing:0.08em;text-transform:uppercase;color:var(--muted);border-bottom:2px solid var(--border);">Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for cat in categories %}
+          <tr onmouseover="this.style.background='#f9fafb'" onmouseout="this.style.background=''">
+            <td style="padding:0.65rem 1rem;border-bottom:1px solid var(--border);color:var(--muted);">{{ forloop.counter }}</td>
+            <td style="padding:0.65rem 1rem;border-bottom:1px solid var(--border);font-weight:500;">{{ cat }}</td>
+            <td style="padding:0.65rem 1rem;border-bottom:1px solid var(--border);color:var(--muted);">{{ cat.created_at|date:"M j, Y" }}</td>
+            <td style="padding:0.65rem 1rem;border-bottom:1px solid var(--border);color:var(--muted);">{{ cat.updated_at|date:"M j, Y" }}</td>
+            <td style="padding:0.65rem 1rem;border-bottom:1px solid var(--border);">
+              <a href="{% url 'edit_category' cat.id %}" style="color:var(--teal);margin-right:0.75rem;"><i class="fas fa-edit"></i></a>
+              <a href="{% url 'delete_category' cat.id %}" style="color:#ef4444;" onclick="return confirm('Delete this category?')"><i class="fas fa-trash"></i></a>
+            </td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+{% endblock %}

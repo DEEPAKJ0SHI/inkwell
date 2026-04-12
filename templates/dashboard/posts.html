@@ -1,0 +1,45 @@
+{% extends 'base.html' %}
+{% block content %}
+<div style="display:flex;gap:2rem;align-items:flex-start;">
+  {% include 'dashboard/sidebar.html' %}
+  <div style="flex:1;">
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:1.5rem;">
+      <h2 style="font-family:var(--serif);font-size:1.5rem;">All Posts</h2>
+      <a href="{% url 'add_post' %}" class="btn btn-primary btn-sm"><i class="fas fa-plus"></i> New Post</a>
+    </div>
+    <div style="background:var(--card-bg);border:1px solid var(--border);border-radius:4px;overflow:hidden;">
+      <table style="width:100%;border-collapse:collapse;font-size:0.87rem;">
+        <thead>
+          <tr style="background:#f9fafb;">
+            <th style="text-align:left;padding:0.65rem 1rem;font-size:0.72rem;letter-spacing:0.08em;text-transform:uppercase;color:var(--muted);border-bottom:2px solid var(--border);">#</th>
+            <th style="text-align:left;padding:0.65rem 1rem;font-size:0.72rem;letter-spacing:0.08em;text-transform:uppercase;color:var(--muted);border-bottom:2px solid var(--border);">Title</th>
+            <th style="text-align:left;padding:0.65rem 1rem;font-size:0.72rem;letter-spacing:0.08em;text-transform:uppercase;color:var(--muted);border-bottom:2px solid var(--border);">Category</th>
+            <th style="text-align:left;padding:0.65rem 1rem;font-size:0.72rem;letter-spacing:0.08em;text-transform:uppercase;color:var(--muted);border-bottom:2px solid var(--border);">Author</th>
+            <th style="text-align:left;padding:0.65rem 1rem;font-size:0.72rem;letter-spacing:0.08em;text-transform:uppercase;color:var(--muted);border-bottom:2px solid var(--border);">Status</th>
+            <th style="text-align:left;padding:0.65rem 1rem;font-size:0.72rem;letter-spacing:0.08em;text-transform:uppercase;color:var(--muted);border-bottom:2px solid var(--border);">Featured</th>
+            <th style="text-align:left;padding:0.65rem 1rem;font-size:0.72rem;letter-spacing:0.08em;text-transform:uppercase;color:var(--muted);border-bottom:2px solid var(--border);">Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for post in posts %}
+          <tr style="transition:background 0.15s;" onmouseover="this.style.background='#f9fafb'" onmouseout="this.style.background=''">
+            <td style="padding:0.65rem 1rem;border-bottom:1px solid var(--border);color:var(--muted);">{{ forloop.counter }}</td>
+            <td style="padding:0.65rem 1rem;border-bottom:1px solid var(--border);font-weight:500;">{{ post.title }}</td>
+            <td style="padding:0.65rem 1rem;border-bottom:1px solid var(--border);"><span style="background:var(--teal-light);color:var(--teal);padding:0.2rem 0.6rem;border-radius:999px;font-size:0.75rem;font-weight:500;">{{ post.category }}</span></td>
+            <td style="padding:0.65rem 1rem;border-bottom:1px solid var(--border);color:var(--muted);">{{ post.author }}</td>
+            <td style="padding:0.65rem 1rem;border-bottom:1px solid var(--border);">
+              <span style="padding:0.2rem 0.6rem;border-radius:999px;font-size:0.75rem;font-weight:500;{% if post.status == 'published' %}background:#f0fdf4;color:#166534;{% else %}background:#fef9c3;color:#854d0e;{% endif %}">{{ post.status }}</span>
+            </td>
+            <td style="padding:0.65rem 1rem;border-bottom:1px solid var(--border);text-align:center;">{% if post.is_featured %}<i class="fas fa-check" style="color:var(--teal);"></i>{% else %}<i class="fas fa-times" style="color:#d1d5db;"></i>{% endif %}</td>
+            <td style="padding:0.65rem 1rem;border-bottom:1px solid var(--border);">
+              <a href="{% url 'edit_post' post.id %}" style="color:var(--teal);margin-right:0.75rem;"><i class="fas fa-edit"></i></a>
+              <a href="{% url 'delete_post' post.id %}" style="color:#ef4444;" onclick="return confirm('Delete this post?')"><i class="fas fa-trash"></i></a>
+            </td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+{% endblock %}

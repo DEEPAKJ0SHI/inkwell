@@ -1,0 +1,92 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<div style="display:grid;grid-template-columns:1fr 280px;gap:2.5rem;">
+
+  <article>
+    <header style="margin-bottom:2rem;padding-bottom:1.5rem;border-bottom:2px solid var(--ink);">
+      <a href="{% url 'posts_by_category' single_blog.category.id %}" style="font-size:0.72rem;letter-spacing:0.12em;text-transform:uppercase;color:var(--teal);font-weight:600;display:inline-block;margin-bottom:0.6rem;background:var(--teal-light);padding:0.2rem 0.7rem;border-radius:999px;">{{ single_blog.category }}</a>
+      <h1 style="font-family:var(--serif);font-size:clamp(1.8rem,3.5vw,2.6rem);line-height:1.2;margin-bottom:0.75rem;">{{ single_blog.title }}</h1>
+      <div style="display:flex;align-items:center;gap:1rem;font-size:0.82rem;color:var(--muted);">
+        <span><i class="fas fa-user-circle"></i> {{ single_blog.author }}</span>
+
+        <span><i class="fas fa-calendar-alt"></i> {{ single_blog.created_at|date:"F j, Y" }}</span>
+
+        <i class="fas fa-eye"></i> {{ single_blog.views }} views
+
+        <i class="fas fa-clock"></i> {{ single_blog.reading_time }}
+      </div>
+    </header>
+
+    {% if single_blog.featured_image %}
+    <figure style="margin-bottom:2rem;">
+      <img src="{{ single_blog.featured_image.url }}" alt="{{ single_blog.title }}" style="width:100%;border-radius:4px;display:block;max-height:460px;object-fit:cover;">
+    </figure>
+    {% endif %}
+
+    <div style="font-size:1rem;line-height:1.85;color:#1f2937;">
+      <p style="font-size:1.12rem;font-weight:400;color:var(--muted);margin-bottom:1.5rem;font-style:italic;border-left:3px solid var(--teal);padding-left:1rem;">{{ single_blog.short_description }}</p>
+      <p>{{ single_blog.blog_body }}</p>
+    </div>
+
+    {% comment %} Comments {% endcomment %}
+    <section style="margin-top:3rem;padding-top:2rem;border-top:1px solid var(--border);">
+      <h3 style="font-family:var(--serif);font-size:1.3rem;margin-bottom:1.5rem;">
+        Comments <span style="font-size:0.85rem;color:var(--muted);font-family:var(--sans);">({{ comment_count }})</span>
+      </h3>
+
+      {% if comments %}
+        {% for comment in comments %}
+        <div style="background:var(--card-bg);border:1px solid var(--border);border-radius:4px;padding:1rem 1.2rem;margin-bottom:0.8rem;">
+          <p style="font-size:0.9rem;margin-bottom:0.4rem;">{{ comment }}</p>
+          <span style="font-size:0.75rem;color:var(--muted);"><i class="fas fa-user"></i> {{ comment.user }} &middot; {{ comment.created_at|timesince }} ago</span>
+        </div>
+        {% endfor %}
+      {% else %}
+        <p style="color:var(--muted);font-size:0.9rem;">No comments yet. Be the first!</p>
+      {% endif %}
+
+      <div style="margin-top:1.5rem;">
+        {% if user.is_authenticated %}
+        <form action="" method="POST">
+          {% csrf_token %}
+          <textarea name="comment" style="width:100%;padding:0.75rem 1rem;font-family:var(--sans);font-size:0.9rem;border:1.5px solid var(--border);border-radius:3px;resize:vertical;min-height:100px;outline:none;" placeholder="Share your thoughts…" onfocus="this.style.borderColor='var(--teal)'" onblur="this.style.borderColor='var(--border)'"></textarea>
+          <button type="submit" class="btn btn-primary" style="margin-top:0.6rem;">Post Comment</button>
+        </form>
+        {% else %}
+        <p style="background:var(--teal-light);padding:0.85rem 1.2rem;border-radius:3px;font-size:0.88rem;color:#115e59;">
+          <i class="fas fa-lock"></i> Please <a href="{% url 'login' %}" style="color:var(--teal);font-weight:600;">sign in</a> to leave a comment.
+        </p>
+        {% endif %}
+      </div>
+    </section>
+  </article>
+
+  <aside>
+    <div style="background:var(--card-bg);border:1px solid var(--border);border-radius:4px;padding:1.4rem;margin-bottom:1.5rem;position:sticky;top:90px;">
+      <h4 style="font-family:var(--serif);font-size:1rem;margin-bottom:1rem;padding-bottom:0.5rem;border-bottom:1px solid var(--border);">Browse Topics</h4>
+      <div style="display:flex;flex-direction:column;gap:0.3rem;">
+        {% for cat in categories %}
+        <a href="{% url 'posts_by_category' cat.id %}" style="font-size:0.85rem;padding:0.35rem 0.5rem;border-radius:3px;color:var(--muted);transition:all 0.15s;" onmouseover="this.style.background='var(--teal-light)';this.style.color='var(--teal)'" onmouseout="this.style.background='';this.style.color='var(--muted)'">
+          <i class="fas fa-tag" style="font-size:0.65rem;"></i> {{ cat.category_name }}
+        </a>
+        {% endfor %}
+      </div>
+    </div>
+
+    {% if social_links %}
+    <div style="background:var(--ink);border-radius:4px;padding:1.4rem;color:var(--paper);">
+      <h4 style="font-family:var(--serif);font-size:1rem;margin-bottom:1rem;color:var(--teal-light);">Stay Connected</h4>
+      <div style="display:flex;flex-direction:column;gap:0.5rem;">
+        {% for i in social_links %}
+        <a href="{{ i.link }}" target="_blank" style="font-size:0.85rem;color:#d1fae5;display:flex;align-items:center;gap:0.5rem;">
+          <i class="fas fa-arrow-right" style="font-size:0.65rem;"></i> {{ i.platform }}
+        </a>
+        {% endfor %}
+      </div>
+    </div>
+    {% endif %}
+  </aside>
+</div>
+
+{% endblock %}

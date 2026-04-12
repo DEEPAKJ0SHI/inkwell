@@ -1,0 +1,34 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<div style="display:flex;gap:2rem;align-items:flex-start;">
+  {% include 'dashboard/sidebar.html' %}
+
+  <div style="flex:1;">
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:2rem;">
+      <div>
+        <h2 style="font-family:var(--serif);font-size:1.6rem;">Dashboard</h2>
+        <p style="color:var(--muted);font-size:0.85rem;margin-top:0.2rem;">Welcome back, <strong>{{ user }}</strong></p>
+      </div>
+    </div>
+
+    <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:1.2rem;margin-bottom:2rem;">
+      <div style="background:var(--card-bg);border:1px solid var(--border);border-radius:4px;padding:1.5rem;border-top:3px solid var(--teal);">
+        <div style="font-size:0.72rem;letter-spacing:0.1em;text-transform:uppercase;color:var(--muted);margin-bottom:0.5rem;">Total Categories</div>
+        <div style="font-family:var(--serif);font-size:2.5rem;color:var(--ink);">{{ category_count }}</div>
+        <a href="{% url 'categories' %}" style="font-size:0.78rem;color:var(--teal);font-weight:500;">Manage &rarr;</a>
+      </div>
+      <div style="background:var(--card-bg);border:1px solid var(--border);border-radius:4px;padding:1.5rem;border-top:3px solid var(--ink);">
+        <div style="font-size:0.72rem;letter-spacing:0.1em;text-transform:uppercase;color:var(--muted);margin-bottom:0.5rem;">Total Posts</div>
+        <div style="font-family:var(--serif);font-size:2.5rem;color:var(--ink);">{{ blogs_count }}</div>
+        <a href="{% url 'posts' %}" style="font-size:0.78rem;color:var(--teal);font-weight:500;">Manage &rarr;</a>
+      </div>
+    </div>
+
+    <div style="background:var(--teal-light);border-radius:4px;padding:1.2rem 1.5rem;font-size:0.88rem;color:#115e59;">
+      <i class="fas fa-lightbulb"></i> <strong>Tip:</strong> Use the sidebar to manage your posts, categories, and users.
+    </div>
+  </div>
+</div>
+
+{% endblock %}

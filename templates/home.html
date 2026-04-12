@@ -1,0 +1,109 @@
+ {% extends 'base.html' %}
+{% block content %}
+
+{% comment %} Hero - first featured post {% endcomment %}
+{% for post in featured_posts %}{% if forloop.first %}
+<section class="hero" style="
+  background: linear-gradient(135deg, rgba(15,14,14,0.78) 0%, rgba(13,148,136,0.55) 100%),
+              url('{{ post.featured_image.url }}') center/cover no-repeat;
+  border-radius: 6px;
+  padding: 4rem 3rem;
+  margin-bottom: 3rem;
+  color: #fff;
+  position: relative;
+  overflow: hidden;
+">
+
+
+  <div style="max-width: 620px;">
+    <span style="font-size:0.72rem;letter-spacing:0.15em;text-transform:uppercase;color:var(--teal-light);font-weight:600;">Editor's Pick</span>
+    <h1 style="font-family:var(--serif);font-size:clamp(1.8rem,4vw,3rem);line-height:1.15;margin:0.5rem 0 1rem;">{{ post.title }}</h1>
+    <p style="opacity:0.85;font-size:0.95rem;line-height:1.7;margin-bottom:1.5rem;">{{ post.short_description|truncatewords:28 }}</p>
+    <a href="{% url 'blogs' post.slug %}" style="background:#fff;color:var(--ink);padding:0.55rem 1.4rem;border-radius:2px;font-weight:600;font-size:0.85rem;display:inline-block;transition:all 0.2s;">Read Article &rarr;</a>
+  </div>
+</section>
+{% endif %}{% endfor %}
+
+{% comment %} Featured Posts Grid {% endcomment %}
+<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:1.2rem;">
+  <h2 style="font-family:var(--serif);font-size:1.4rem;">Featured Stories</h2>
+  <div style="height:2px;flex:1;background:var(--border);margin:0 1rem;"></div>
+</div>
+
+<div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:1.5rem;margin-bottom:3rem;">
+{% for post in featured_posts %}{% if not forloop.first %}
+  <article style="background:var(--card-bg);border:1px solid var(--border);border-radius:4px;overflow:hidden;transition:box-shadow 0.2s;" onmouseover="this.style.boxShadow='0 6px 24px rgba(0,0,0,0.09)'" onmouseout="this.style.boxShadow='none'">
+    {% if post.featured_image %}
+    <a href="{% url 'blogs' post.slug %}">
+      <img src="{{ post.featured_image.url }}" alt="{{ post.title }}" style="width:100%;height:170px;object-fit:cover;display:block;">
+    </a>
+    {% endif %}
+    <div style="padding:1.2rem;">
+      <a href="{% url 'posts_by_category' post.category.id %}"><span style="font-size:0.7rem;letter-spacing:0.1em;text-transform:uppercase;color:var(--teal);font-weight:600;">{{ post.category }}</span></a>
+      <h3 style="font-family:var(--serif);font-size:1.1rem;margin:0.4rem 0 0.6rem;line-height:1.3;">
+        <a href="{% url 'blogs' post.slug %}">{{ post.title }}</a>
+      </h3>
+      <p style="font-size:0.83rem;color:var(--muted);line-height:1.6;">{{ post.short_description|truncatewords:18 }}</p>
+      <div style="margin-top:0.9rem;font-size:0.75rem;color:var(--muted);display:flex;gap:0.5rem;align-items:center;">
+      <i class="fas fa-user-circle"></i> {{ post.author }} &middot; {{ post.created_at|timesince }} ago &middot; <i class="fas fa-eye"></i> {{ post.views }} views
+      </div>
+    </div>
+  </article>
+{% endif %}{% endfor %}
+</div>
+
+{% comment %} Recent + Sidebar {% endcomment %}
+<div style="display:grid;grid-template-columns:1fr 300px;gap:2.5rem;">
+
+  <div>
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:1.2rem;">
+      <h2 style="font-family:var(--serif);font-size:1.4rem;">Recent Articles</h2>
+      <div style="height:2px;flex:1;background:var(--border);margin:0 1rem;"></div>
+    </div>
+
+    {% for post in posts %}
+    <article style="display:flex;gap:1.2rem;padding:1.2rem 0;border-bottom:1px solid var(--border);">
+      {% if post.featured_image %}
+      <a href="{% url 'blogs' post.slug %}" style="flex-shrink:0;">
+        <img src="{{ post.featured_image.url }}" alt="" style="width:110px;height:78px;object-fit:cover;border-radius:3px;display:block;">
+      </a>
+      {% endif %}
+      <div>
+        <a href="{% url 'posts_by_category' post.category.id %}"><span style="font-size:0.68rem;letter-spacing:0.1em;text-transform:uppercase;color:var(--teal);font-weight:600;">{{ post.category }}</span></a>
+        <h3 style="font-family:var(--serif);font-size:1.05rem;margin:0.25rem 0 0.4rem;line-height:1.3;">
+          <a href="{% url 'blogs' post.slug %}">{{ post.title }}</a>
+        </h3>
+        <p style="font-size:0.82rem;color:var(--muted);">{{ post.short_description|truncatewords:15 }}</p>
+       <div style="margin-top:0.5rem;font-size:0.73rem;color:var(--muted);">
+    <i class="fas fa-user-circle"></i> {{ post.author }} &middot; {{ post.created_at|timesince }} ago &middot; <i class="fas fa-eye"></i> {{ post.views }} views
+    <i class="fas fa-clock"></i> {{ post.reading_time }} 
+</div>
+      </div>
+    </article>
+    {% endfor %}
+  </div>
+
+  <aside>
+    {% if about %}
+    <div style="background:var(--ink);color:var(--paper);border-radius:4px;padding:1.5rem;margin-bottom:1.5rem;">
+      <h4 style="font-family:var(--serif);font-size:1.1rem;margin-bottom:0.6rem;color:var(--teal-light);">{{ about.about_heading }}</h4>
+      <p style="font-size:0.83rem;line-height:1.7;opacity:0.8;">{{ about.about_description }}</p>
+    </div>
+    {% endif %}
+
+    {% if social_links %}
+    <div style="background:var(--card-bg);border:1px solid var(--border);border-radius:4px;padding:1.5rem;">
+      <h4 style="font-family:var(--serif);font-size:1rem;margin-bottom:1rem;">Follow Us</h4>
+      <div style="display:flex;flex-direction:column;gap:0.5rem;">
+        {% for i in social_links %}
+        <a href="{{ i.link }}" target="_blank" style="display:flex;align-items:center;gap:0.5rem;font-size:0.85rem;color:var(--teal);font-weight:500;">
+          <i class="fas fa-external-link-alt" style="font-size:0.7rem;"></i> {{ i.platform }}
+        </a>
+        {% endfor %}
+      </div>
+    </div>
+    {% endif %}
+  </aside>
+</div>
+
+{% endblock %}

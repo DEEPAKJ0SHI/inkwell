@@ -1,0 +1,28 @@
+<div style="width:220px;flex-shrink:0;">
+  <div style="background:var(--ink);border-radius:6px;overflow:hidden;position:sticky;top:90px;">
+    <div style="padding:1.2rem 1.4rem;border-bottom:1px solid rgba(255,255,255,0.08);">
+      <div style="font-size:0.68rem;letter-spacing:0.12em;text-transform:uppercase;color:var(--teal-light);margin-bottom:0.2rem;">Control Panel</div>
+      <div style="font-family:var(--serif);font-size:1.05rem;color:#fff;">InkWell Admin</div>
+    </div>
+    <nav style="padding:0.5rem 0;">
+      <a href="{% url 'dashboard' %}" style="display:flex;align-items:center;gap:0.7rem;padding:0.65rem 1.4rem;font-size:0.85rem;color:{% if '/dashboard/' == request.path %}var(--teal-light){% else %}#9ca3af{% endif %};background:{% if '/dashboard/' == request.path %}rgba(13,148,136,0.15){% else %}transparent{% endif %};border-left:3px solid {% if '/dashboard/' == request.path %}var(--teal){% else %}transparent{% endif %};transition:all 0.15s;">
+        <i class="fas fa-th-large" style="width:14px;"></i> Overview
+      </a>
+      {% if perms.auth.view_user %}
+      <a href="{% url 'users' %}" style="display:flex;align-items:center;gap:0.7rem;padding:0.65rem 1.4rem;font-size:0.85rem;color:{% if '/users/' in request.path %}var(--teal-light){% else %}#9ca3af{% endif %};background:{% if '/users/' in request.path %}rgba(13,148,136,0.15){% else %}transparent{% endif %};border-left:3px solid {% if '/users/' in request.path %}var(--teal){% else %}transparent{% endif %};transition:all 0.15s;">
+        <i class="fas fa-users" style="width:14px;"></i> Users
+      </a>
+      {% endif %}
+      <a href="{% url 'categories' %}" style="display:flex;align-items:center;gap:0.7rem;padding:0.65rem 1.4rem;font-size:0.85rem;color:{% if '/categories/' in request.path %}var(--teal-light){% else %}#9ca3af{% endif %};background:{% if '/categories/' in request.path %}rgba(13,148,136,0.15){% else %}transparent{% endif %};border-left:3px solid {% if '/categories/' in request.path %}var(--teal){% else %}transparent{% endif %};transition:all 0.15s;">
+        <i class="fas fa-tag" style="width:14px;"></i> Categories
+      </a>
+      <a href="{% url 'posts' %}" style="display:flex;align-items:center;gap:0.7rem;padding:0.65rem 1.4rem;font-size:0.85rem;color:{% if '/posts/' in request.path %}var(--teal-light){% else %}#9ca3af{% endif %};background:{% if '/posts/' in request.path %}rgba(13,148,136,0.15){% else %}transparent{% endif %};border-left:3px solid {% if '/posts/' in request.path %}var(--teal){% else %}transparent{% endif %};transition:all 0.15s;">
+        <i class="fas fa-file-alt" style="width:14px;"></i> Posts
+      </a>
+      <div style="height:1px;background:rgba(255,255,255,0.06);margin:0.4rem 0;"></div>
+      <a href="{% url 'logout' %}" style="display:flex;align-items:center;gap:0.7rem;padding:0.65rem 1.4rem;font-size:0.85rem;color:#f87171;transition:all 0.15s;">
+        <i class="fas fa-sign-out-alt" style="width:14px;"></i> Sign Out
+      </a>
+    </nav>
+  </div>
+</div>
