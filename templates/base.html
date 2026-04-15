@@ -87,7 +87,9 @@
       <a class="btn btn-outline btn-sm" href="{% url 'login' %}">Sign In</a>
       <a class="btn btn-primary btn-sm" href="{% url 'register' %}">Join Free</a>
     {% else %}
+      {% if user.is_staff %}
       <a class="btn btn-outline btn-sm" href="{% url 'dashboard' %}"><i class="fas fa-tachometer-alt"></i> Dashboard</a>
+      {% endif %}
       <a class="btn btn-primary btn-sm" href="{% url 'logout' %}">Sign Out</a>
     {% endif %}
   </div>
